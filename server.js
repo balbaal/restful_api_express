@@ -4,9 +4,6 @@ const bodyParser = require("body-parser");
 
 const app = express();
 
-// Body Parser Middleware
-app.use(bodyParser.json());
-
 // Connect To DB
 const db = require("./config/connect").mongoURI;
 mongoose
@@ -14,7 +11,14 @@ mongoose
   .then(() => console.log("MongoDB is Connected ... . ."))
   .catch(err => console.log(`Something ERROR Connecting On MongoDB : ${err}`));
 
+// Body Parsing Middleware
+app.use(bodyParser.json());
+
+// Require Routes
+const News = require('./routes/api/news')
+
 // Routing End Point API Here
+app.use('/api/news', News)
 
 // Running Port
 const PORT = process.env.PORT || 4000;
